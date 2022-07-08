@@ -1,6 +1,7 @@
 from feast import Entity, Feature,Field, FeatureView, FileSource, ValueType
 from feast.types import Float64, Int64
 from datetime import timedelta
+
 # Declaring an entity for the dataset
 patient = Entity(
     name="patient_id", 
@@ -11,7 +12,6 @@ patient = Entity(
 f_source1 = FileSource(
     path=r"data/predictors_df.parquet",
     event_timestamp_column="event_timestamp",
-    
 )
 
 # Defining the first set of features
