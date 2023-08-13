@@ -4,10 +4,10 @@ from datetime import timedelta
 from feast import Entity, FeatureService, FeatureView, Field, FileSource, ValueType
 from feast.types import Float64, Int64
 
-patient = Entity(name = "patient_id",
-                     value_type = ValueType.INT64,
-                 description = "ID of the patient")
-
+# patient = Entity(name = "patient_id",
+#                      value_type = ValueType.INT64,
+#                  description = "ID of the patient")
+patient = Entity(name="patient", join_keys=["patient_id"])
 ## Predictors Feature View
 file_source = FileSource(path = r"data/predictors_df.parquet",
                          event_timestamp_column = "event_timestamp",)
@@ -15,7 +15,7 @@ file_source = FileSource(path = r"data/predictors_df.parquet",
 df1_fv = FeatureView(
     name = "predictors_df_feature_view",
     ttl = timedelta(seconds = 86400*2),
-    entities = ['patient_id'],
+    entities = [patient],
     schema = [
     Field(name = "Pregnancies", dtype = Int64),
     Field(name = "Glucose", dtype = Int64),
@@ -39,7 +39,7 @@ target_source = FileSource(path = r"data/target_df.parquet",
 target_fv = FeatureView(
     name = "target_df_feature_view",
     ttl = timedelta(seconds = 86400*2),
-    entities = ['patient_id'],
+    entities = [patient],
     schema = [
     Field(name = "Outcome", dtype = Int64),       
     ],
